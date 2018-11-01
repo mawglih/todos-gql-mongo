@@ -13,6 +13,13 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
+//JWT auth
+app.use(async (req, res, next) => {
+  const token = req.headers['authorization'];
+  console.log(token);
+  next();
+});
+
 //graphql
 const {
   graphqlExpress,

@@ -8,6 +8,7 @@ type Todos {
   due: String
   username: String
 }
+
 type User {
   _id: ID
   username: String!
@@ -16,9 +17,15 @@ type User {
   joinDate: String
   todos: [Todos]
 }
+
 type Query {
   getAllTodos: [Todos]
 }
+
+type Token {
+  token: String!
+}
+
 type Mutation {
   addTodo(
     name: String!,
@@ -27,5 +34,16 @@ type Mutation {
     due: String,
     username: String
     ): Todos
+  
+  signinUser(
+    username: String!
+    password: String!
+  ): Token
+  
+  signupUser(
+    username: String!
+    email: String!
+    password: String!
+  ): Token
 }
 `;
