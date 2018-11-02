@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const Todos = require('./models/todo');
 const User = require('./models/user');
 
@@ -16,7 +17,14 @@ app.use(cors(corsOptions));
 //JWT auth
 app.use(async (req, res, next) => {
   const token = req.headers['authorization'];
-  console.log(token);
+  if(token !== 'null') {
+    try {
+      const currentUser = await jwt.verify(token, process.env.SECRET);
+      req.currentUser = currentUser;
+    } catch(err) {
+      console.error(err);
+    }
+  }
   next();
 });
 
@@ -49,13 +57,14 @@ mongoose.connection
 
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql'}));
 //connect schema to graphql
-app.use('/graphql', bodyParser.json(), graphqlExpress({
+app.use('/graphql', bodyParser.json(), graphqlExpress(({ currentUser }) => ({
   schema,
   context: {
     Todos,
     User,
+    currentUser,
   }
-}));
+})));
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

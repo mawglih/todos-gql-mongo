@@ -10,6 +10,17 @@ exports.resolvers = {
     getAllTodos: async (root, args, { Todos }) => {
       const allTodos = await Todos.find();
       return allTodos;
+    },
+    getCurrentUser: async (root, args, { currentUser, User }) => {
+      if(!currentUser) {
+        return null;
+      }
+      const user = await User.findOne({ username: currentUser.username })
+        .populate({
+          path: 'todos',
+          model: 'Todos',
+        });
+      return user;
     }
   },
   Mutation: {

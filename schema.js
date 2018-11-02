@@ -20,6 +20,8 @@ type User {
 
 type Query {
   getAllTodos: [Todos]
+
+  getCurrentUser: User
 }
 
 type Token {
@@ -39,7 +41,7 @@ type Mutation {
     username: String!
     password: String!
   ): Token
-  
+
   signupUser(
     username: String!
     email: String!
