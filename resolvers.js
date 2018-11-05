@@ -11,6 +11,10 @@ exports.resolvers = {
       const allTodos = await Todos.find();
       return allTodos;
     },
+    getTodoItem: async (root, { _id }, { Todos }) => {
+      const TodoItem = await Todos.findOne({ _id });
+      return TodoItem;
+    },
     getCurrentUser: async (root, args, { currentUser, User }) => {
       if(!currentUser) {
         return null;
