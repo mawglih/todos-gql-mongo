@@ -21,6 +21,7 @@ type User {
 type Query {
   getAllTodos: [Todos]
   getTodoItem(_id: ID!): Todos
+  searchTodos(searchTerm: String): [Todos]
   getCurrentUser: User
 }
 

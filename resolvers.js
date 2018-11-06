@@ -17,6 +17,14 @@ exports.resolvers = {
       const TodoItem = await Todos.findOne({ _id });
       return TodoItem;
     },
+    searchTodos: async (root, { searchTerm }, { Todos }) => {
+      if(searchTerm) {
+        //do smth
+      } else {
+        const TodoItem = await Todos.find().sort({ due: 'desc', createdDate: 'desc'});
+        return TodoItem;
+      }
+    },
     getCurrentUser: async (root, args, { currentUser, User }) => {
       if(!currentUser) {
         return null;
