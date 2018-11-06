@@ -8,7 +8,9 @@ const createToken = (user, secret, expiresIn) => {
 exports.resolvers = {
   Query: {
     getAllTodos: async (root, args, { Todos }) => {
-      const allTodos = await Todos.find();
+      const allTodos = await Todos.find().sort({
+        createdDate: 'desc'
+      });
       return allTodos;
     },
     getTodoItem: async (root, { _id }, { Todos }) => {
