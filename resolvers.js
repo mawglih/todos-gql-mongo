@@ -19,11 +19,22 @@ exports.resolvers = {
     },
     searchTodos: async (root, { searchTerm }, { Todos }) => {
       if(searchTerm) {
-        //do smth
+        const searchResults = await Todos.find({
+          $text: { $search: searchTerm },
+        }, {
+          score: { $meta: "textScore"}
+        }).sort({
+          score: { $meta: "textScore"}
+        });
+        return searchResults;
       } else {
-        const TodoItem = await Todos.find().sort({ due: 'desc', createdDate: 'desc'});
-        return TodoItem;
+        const todos = await Todos.find().sort({due: 'desc'});
+        return todos;
       }
+    },
+    getUserTodos: async (root, { username }, {Todos}) => {
+      const userTodos = await Todos.find({ username }).sort({ createdDate: 'desc'});
+      return userTodos;
     },
     getCurrentUser: async (root, args, { currentUser, User }) => {
       if(!currentUser) {
@@ -38,19 +49,17 @@ exports.resolvers = {
     }
   },
   Mutation: {
-    addTodo: async (root, {
-      name,
-      category,
-      description,
-      due,
-      username
-    }, { Todos }) => {
+    addTodo: async (
+      root, 
+        { name, category, description, due, username},
+        { Todos }
+    ) => {
       const newTodo = await new Todos({
         name,
         category,
         description,
         due,
-        username
+        username,
       }).save();
       return newTodo;
     },

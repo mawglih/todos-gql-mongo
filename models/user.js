@@ -18,7 +18,7 @@ const UserSchema = new Schema({
   },
   joinDate: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   todos: {
     type: [Schema.Types.ObjectId],

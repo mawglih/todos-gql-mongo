@@ -1,6 +1,6 @@
 exports.typeDefs = `
 type Todos {
-  _id: ID!
+  _id: ID
   name: String!
   category: String!
   description: String
@@ -23,6 +23,7 @@ type Query {
   getTodoItem(_id: ID!): Todos
   searchTodos(searchTerm: String): [Todos]
   getCurrentUser: User
+  getUserTodos(username: String!): [Todos]
 }
 
 type Token {

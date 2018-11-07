@@ -19,7 +19,7 @@ const TodoSchema = new Schema({
   },
   createdDate: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   due: {
     type: Date,
@@ -27,6 +27,10 @@ const TodoSchema = new Schema({
   username: {
     type: String,
   }
+});
+
+TodoSchema.index({
+  '$**': 'text'
 });
 
 module.exports = mongoose.model('Todos', TodoSchema);
