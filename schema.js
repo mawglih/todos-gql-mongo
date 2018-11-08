@@ -2,11 +2,13 @@ exports.typeDefs = `
 type Todos {
   _id: ID
   name: String!
+  imageUrl: String!
   category: String!
   description: String
   createdDate: String
   due: String
   username: String
+  completion: String
 }
 
 type User {
@@ -33,6 +35,7 @@ type Token {
 type Mutation {
   addTodo(
     name: String!,
+    imageUrl: String!,
     category: String!,
     description: String,
     due: String,
@@ -49,5 +52,13 @@ type Mutation {
     email: String!
     password: String!
   ): Token
+
+  deleteTodo(
+    _id: ID
+  ): Todos
+
+  updateTodo(
+    _id:ID
+  ): Todos
 }
 `;

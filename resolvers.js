@@ -51,15 +51,17 @@ exports.resolvers = {
   Mutation: {
     addTodo: async (
       root, 
-        { name, category, description, due, username},
+        { name, category, imageUrl, description, due, username, completion, },
         { Todos }
     ) => {
       const newTodo = await new Todos({
         name,
         category,
         description,
+        imageUrl,
         due,
         username,
+        completion,
       }).save();
       return newTodo;
     },
@@ -85,6 +87,14 @@ exports.resolvers = {
         password,
       }).save();
       return { token: createToken(newUser, process.env.SECRET, '1hr')}
+    },
+    deleteTodo: async (root, { _id }, { Todos }) => {
+      const todo = await Todos.findOneAndRemove({ _id });
+      return todo;
+    },
+    updateTodo: async (root, { _id }, { Todos }) => {
+      const todo = await Todos.findOneAndUpdate({ _id }, { $inc: { completion: 10 }});
+      return todo;
     },
   },
 };

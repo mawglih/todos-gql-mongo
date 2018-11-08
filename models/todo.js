@@ -10,6 +10,11 @@ const TodoSchema = new Schema({
     type: String,
     required: true,
   },
+  imageUrl: {
+    type: String,
+    required: true,
+    default: 'https://s3.amazonaws.com/photo-links/sosna.png',
+  },
   category: {
     type: String,
     required: true,
@@ -26,7 +31,11 @@ const TodoSchema = new Schema({
   },
   username: {
     type: String,
-  }
+  },
+  completion: {
+    type: Number,
+    default: 0,
+  },
 });
 
 TodoSchema.index({
