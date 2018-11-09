@@ -20,7 +20,7 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
-  todos: {
+  completed: {
     type: [Schema.Types.ObjectId],
     ref: 'Todos',
   }

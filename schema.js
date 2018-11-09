@@ -8,7 +8,7 @@ type Todos {
   createdDate: String
   due: String
   username: String
-  completion: String
+  completion: Int
 }
 
 type User {
@@ -17,7 +17,7 @@ type User {
   password: String!
   email: String!
   joinDate: String
-  todos: [Todos]
+  completed: [Todos]
 }
 
 type Query {
@@ -54,11 +54,17 @@ type Mutation {
   ): Token
 
   deleteTodo(
-    _id: ID
+    _id: ID!
   ): Todos
 
   updateTodo(
-    _id:ID
+    _id: ID!
+    username: String!
+  ): Todos
+
+  uncompleteTodo(
+    _id: ID!
+    username: String!
   ): Todos
 }
 `;

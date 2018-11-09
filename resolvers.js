@@ -42,7 +42,7 @@ exports.resolvers = {
       }
       const user = await User.findOne({ username: currentUser.username })
         .populate({
-          path: 'todos',
+          path: 'completed',
           model: 'Todos',
         });
       return user;
@@ -92,10 +92,15 @@ exports.resolvers = {
       const todo = await Todos.findOneAndRemove({ _id });
       return todo;
     },
-    updateTodo: async (root, { _id }, { Todos }) => {
-      const todo = await Todos.findOneAndUpdate({ _id }, { $inc: { completion: 10 }});
+    updateTodo: async (root, { _id, username }, { Todos, User }) => {
+      const todo = await Todos.findOneAndUpdate({ _id }, { $set: { completion: 1 }});
+      const user = await User.findOneAndUpdate({ username }, { $addToSet: { completed: _id }});
+      return todo;
+    },
+    uncompleteTodo: async (root, { _id, username }, { Todos, User }) => {
+      const todo = await Todos.findOneAndUpdate({ _id }, { $set: { completion: 0 }});
+      const user = await User.findOneAndUpdate({ username }, { $pull: { completed: _id }});
       return todo;
     },
   },
 };
-
