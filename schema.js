@@ -66,5 +66,14 @@ type Mutation {
     _id: ID!
     username: String!
   ): Todos
+
+  updateUserTodo(
+    _id: ID!
+    name: String!,
+    imageUrl: String!,
+    category: String!,
+    description: String,
+    due: String,
+  ): Todos
 }
 `;

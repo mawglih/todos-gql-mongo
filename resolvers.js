@@ -102,5 +102,13 @@ exports.resolvers = {
       const user = await User.findOneAndUpdate({ username }, { $pull: { completed: _id }});
       return todo;
     },
+    updateUserTodo: async (root, { _id, name, category, imageUrl, description, due }, { Todos }) => {
+      const todo= await Todos.findOneAndUpdate(
+        { _id, },
+        {$set: { name, category, imageUrl, description, due }},
+        { new : true }
+      );
+      return todo;
+    }
   },
 };
